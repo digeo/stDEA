@@ -109,6 +109,7 @@ stDEA <- function(X, Y, RTS = "vrs", ORIENTATION = "out"){
   }
   
   oe <- list(eff = e, 
+             efficiencyDEA = efficiency.dea,
              lambda = lambda, 
              objval = objval, 
              RTS = RTS, 
