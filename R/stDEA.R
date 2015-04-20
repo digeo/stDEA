@@ -1,3 +1,13 @@
+#' Spatio-Temporal DEA efficiency
+#' 
+#' Estimates a ST-DEA frontier and calculates efficiency measures a la Farrell.
+#' @param X Inputs of firms to be evaluated, a K x m matrix of observations of K firms with m inputs (firm x input). In case TRANSPOSE=TRUE the input matrix is transposed to input x firm.
+#' @param Y Outputs of firms to be evaluated, a K x n matrix of observations of K firms with n outputs (firm x input). In case TRANSPOSE=TRUE the output matrix is transposed to output x firm.
+#' @param RTS Text string or a number defining the underlying DEA technology / returns to scale assumption.
+#' @param ORIENTATION Input efficiency "in" (1), output efficiency "out" (2), and graph efficiency "graph" (3). For use with DIRECT , an additional option is "in-out" (0).
+#' @return The results are returned in a Farrell object with the following components. The last three components in the list are only part of the object when SLACK=TRUE.
+#' 
+#' @export
 stDEA <- function(X, Y, RTS = "vrs", ORIENTATION = "out"){
   
   rts <- c("fdh", "vrs", "drs", "crs", "irs", "irs2", "add", "fdh+", "fdh++", "fdh0")
@@ -97,5 +107,13 @@ stDEA <- function(X, Y, RTS = "vrs", ORIENTATION = "out"){
       solve(lpmodel)
     }
   }
+  
+  oe <- list(eff = e, 
+             lambda = lambda, 
+             objval = objval, 
+             RTS = RTS, 
+             ORIENTATION = ORIENTATION)
+  
+  return(oe)
   
 }
