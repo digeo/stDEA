@@ -8,7 +8,10 @@
 #' @return The results are returned in a Farrell object with the following components. The last three components in the list are only part of the object when SLACK=TRUE.
 #' 
 #' @export
-stDEA <- function(X, Y, RTS = "vrs", ORIENTATION = "out"){
+#' imported.data <- read.csv(file = file.choose(), header = TRUE, sep = ";")
+#' x <- with(imported.data, cbind(X1))
+#' y <- with(imported.data, cbind(O1, O2))
+stDEA <- function(X, Y, RTS = "vrs", ORIENTATION = "out", stp = 0.01){
   
   rts <- c("fdh", "vrs", "drs", "crs", "irs", "irs2", "add", "fdh+", "fdh++", "fdh0")
   
@@ -38,37 +41,25 @@ stDEA <- function(X, Y, RTS = "vrs", ORIENTATION = "out"){
   # Define the M
   M <- 100000
   
-  # Step
-  stp <- 0.01
-  
   repeats <- 1 / stp
   
   numberOfDMUs <- dim(X)[1]
   numberOfOutputs <- dim(Y)[2]
   numberOfInputs <- dim(X)[2]
   
-  minimum.DMUs <- max(numberOfInputs * numberOfOutputs, 3 * (numberOfInputs + numberOfOutputs))
-  stop.DMU <- minimum.DMUs
-  
-  if(minimumDMUs > numberOfDMUs){
+  if(minimumDMUs(numberOfInputs, numberOfOutputs) > numberOfDMUs){
     stop("Not enough Decision Making Units, you should have at least : ", minimumDMUs)
   }
   
-  efficiency.dea <- rep(NA, times = minimumDMUs - 1)
-  
   alphaMatrix <- matrix(data = 0, nrow = numberOfDMUs, ncol = numberOfDMUs)
   
-  while(stop.DMU <= number.Of.DMUs){
-    tempX <- X[1:stopDMU,]
-    tempY <- Y[1:stopDMU,]
-    e <- dea(tempX, tempY, RTS, ORIENTATION)
-    efficiency.dea <- c(efficiency.dea, eff(e)[stopDMU])
-    prs <- dea.peers(e)
-    lmbd <- as.data.frame(lambda(e))
-    for (i in 1:dim(prs)[2]) {
-      alphaMatrix[stopDMU, prs[stop.DMU, i]] <- lmbd[stop.DMU, i]
-    }
-    stop.DMU <- stop.DMU + 1
+  e <- dea(X, Y, RTS, ORIENTATION)
+  efficiency.dea <- e$eff
+  prs <- peers(e)
+  lmbd <- as.data.frame(lambda(e))
+  
+  for (i in 1:dim(prs)[2]) {
+    alphaMatrix[numberOfDMUs, prs[numberOfDMUs, i]] <- lmbd[numberOfDMUs, i]
   }
   
   # Define the constraintTypes
@@ -108,11 +99,11 @@ stDEA <- function(X, Y, RTS = "vrs", ORIENTATION = "out"){
     }
   }
   
-  oe <- list(eff = e, 
+  oe <- list(eff = e,
              efficiencyDEA = efficiency.dea,
-             lambda = lambda, 
-             objval = objval, 
-             RTS = RTS, 
+             lambda = lambda,
+             objval = objval,
+             RTS = RTS,
              ORIENTATION = ORIENTATION)
   
   return(oe)
