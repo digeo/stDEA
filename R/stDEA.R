@@ -58,9 +58,7 @@ stDEA <- function(X, Y, RTS = "vrs", ORIENTATION = "out", stp = 0.01){
   prs <- peers(e)
   lmbd <- as.data.frame(lambda(e))
   
-  for (i in 1:dim(prs)[2]) {
-    alphaMatrix[numberOfDMUs, prs[numberOfDMUs, i]] <- lmbd[numberOfDMUs, i]
-  }
+  alphaMatrix <- alpha.Matrix(e)
   
   # Define the constraintTypes
   constraintTypes <- matrix(data = ">=", nrow = (numberOfOutputs + 1), ncol = 1)
