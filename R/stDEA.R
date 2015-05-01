@@ -48,14 +48,15 @@ stDEA <- function(X, Y, RTS = "vrs", ORIENTATION = "out", stp = 0.01){
     stop("Not enough Decision Making Units, you should have at least : ", minimumDMUs)
   }
   
-  alphaMatrix <- matrix(data = 0, nrow = numberOfDMUs, ncol = numberOfDMUs)
-  
   e <- dea(X, Y, RTS, ORIENTATION)
   efficiency.dea <- e$eff
   prs <- peers(e)
   lmbd <- as.data.frame(lambda(e))
   
   alphaMatrix <- alpha.Matrix(e)
+  deltaMatrix <- delta.Matrix(alphaMatrix)
+  alphaMax <- alpha.Max(alphaMatrix)
+  deltaMin <- delta.min(deltaMatrix)
   
   # Define the constraintTypes
   constraintTypes <- matrix(data = ">=", nrow = (numberOfOutputs + 1), ncol = 1)
