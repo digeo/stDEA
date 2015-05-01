@@ -1,4 +1,8 @@
 delta.Matrix <- function(alphaMatrix) {
+  
+  # Define the M
+  M <- 100000
+  
   dimetion <- dim(alphaMatrix)[1]
   deltaMatrix <- matrix(data = M, nrow = dimetion, ncol = dimetion)
   

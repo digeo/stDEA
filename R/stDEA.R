@@ -37,10 +37,7 @@ stDEA <- function(X, Y, RTS = "vrs", ORIENTATION = "out", stp = 0.01){
   if (!(ORIENTATION %in% orientation)) {
     stop(paste("Unknown value for ORIENTATION:", ORIENTATION))
   }
-  
-  # Define the M
-  M <- 100000
-  
+    
   repeats <- 1 / stp
   
   numberOfDMUs <- dim(X)[1]
