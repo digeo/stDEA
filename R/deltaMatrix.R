@@ -3,12 +3,12 @@ delta.Matrix <- function(alphaMatrix) {
   # Define the M
   M <- 100000
   
-  dimetion <- dim(alphaMatrix)[1]
-  deltaMatrix <- matrix(data = M, nrow = dimetion, ncol = dimetion)
+  dimension <- dim(alphaMatrix)[1]
+  deltaMatrix <- matrix(data = M, nrow = dimension, ncol = dimension)
   
   # Calculating the Delta matrix
-  for (i in 1:dimetion){
-    for (j in 1:dimetion){
+  for (i in 1:dimension){
+    for (j in 1:dimension){
       if (alphaMatrix[i,j] > 0){
         deltaMatrix[i,j] <- (i - j)
       }
