@@ -1,9 +1,9 @@
 delta.min <- function(deltaMatrix) {
-  dimetion <- dim(deltaMatrix)[1]
-  deltaMin <- matrix(data = 0, nrow = dimetion, ncol = 1)
+  dimension <- dim(deltaMatrix)[1]
+  deltaMin <- matrix(data = 0, nrow = dimension, ncol = 1)
   
   # Find the DeltaMin
-  for (i in 1:dimetion){
+  for (i in 1:dimension){
     deltaMin[i] <- 0
     
     for (j in 1:i){
@@ -15,5 +15,5 @@ delta.min <- function(deltaMatrix) {
       deltaMin[i] <- 1
     }
   }
-  return deltaMin
+  return (deltaMin)
 }
