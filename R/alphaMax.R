@@ -1,8 +1,9 @@
 alpha.Max <- function(alphaMatrix) {
-  alphaMax <- matrix(data = 0, nrow = dim(alphaMatrix)[1], ncol = 1)
+  dimension <- dim(alphaMatrix)[1]
+  alphaMax <- matrix(data = 0, nrow = dimension, ncol = 1)
   # Find the max lambda for each DMU
-  for (i in minimumDMUs:numberOfDMUs){
+  for (i in 1:dimension){
     alphaMax[i] <- max(alphaMatrix[i,])
   }
-  return alphaMax
+  return (alphaMax)
 }
