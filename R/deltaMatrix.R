@@ -10,5 +10,5 @@ delta.Matrix <- function(alphaMatrix) {
       }
     }
   }
-  return deltaMatrix
+  return (deltaMatrix)
 }
