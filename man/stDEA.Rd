@@ -13,7 +13,7 @@ stDEA(X, Y, RTS = "vrs", ORIENTATION = "out", stp = 0.01)
 
 \item{RTS}{Text string or a number defining the underlying DEA technology / returns to scale assumption.}
 
-\item{ORIENTATION}{Input efficiency "in" (1), output efficiency "out" (2), and graph efficiency "graph" (3). For use with DIRECT , an additional option is "in-out" (0).}
+\item{ORIENTATION}{Input efficiency "in" (1), output efficiency "out" (2).}
 
 \item{stp}{the STEP..}
 }
