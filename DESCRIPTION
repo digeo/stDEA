@@ -1,9 +1,10 @@
 Package: stDEA
 Type: Package
-Title: What the package does (short line)
-Version: 1.0
-Date: 2015-04-18
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
+Title: SpatioTemporal Data Envelopment Analysis
+Version: 0.1
+Date: 2015-05-25
+Author: Georgios Digkas <digasgeo@yahoo.gr>, Alexandros Chatzigeorgiou <achat@uom.edu.gr>
+Maintainer: Georgios Digkas <digasgeo@yahoo.gr>
 Description: More about what it does (maybe more than one line)
-License: What license is it under?
+License: GPL 2
+LazyLoad: yes
