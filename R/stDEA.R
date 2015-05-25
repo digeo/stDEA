@@ -5,13 +5,15 @@
 #' @param Y Outputs of firms to be evaluated, a K x n matrix of observations of K firms with n outputs (firm x input). In case TRANSPOSE=TRUE the output matrix is transposed to output x firm.
 #' @param RTS Text string or a number defining the underlying DEA technology / returns to scale assumption.
 #' @param ORIENTATION Input efficiency "in" (1), output efficiency "out" (2), and graph efficiency "graph" (3). For use with DIRECT , an additional option is "in-out" (0).
+#' @param stp the STEP..
 #' @return The results are returned in a Farrell object with the following components. The last three components in the list are only part of the object when SLACK=TRUE.
 #' 
 #' @export
-#' imported.data <- read.csv(file = file.choose(), header = TRUE, sep = ";")
-#' x <- with(imported.data, cbind(X1))
-#' y <- with(imported.data, cbind(O1, O2))
 stDEA <- function(X, Y, RTS = "vrs", ORIENTATION = "out", stp = 0.01){
+  
+  # imported.data <- read.csv(file = file.choose(), header = TRUE, sep = ";")
+  # x <- with(imported.data, cbind(X1))
+  # y <- with(imported.data, cbind(O1, O2))
   
   rts <- c("fdh", "vrs", "drs", "crs", "irs", "irs2", "add", "fdh+", "fdh++", "fdh0")
   
