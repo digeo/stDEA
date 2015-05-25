@@ -74,36 +74,36 @@ stDEA <- function(X, Y, RTS = "vrs", ORIENTATION = "out", stp = 0.01){
   proj.val <- matrix(data = NA, nrow = (1 / 0.01 + 1), ncol = numberOfOutputs)
   
   # ST-DEA
-  objectiveFunction <- matrix(data = 0, nrow = i, ncol = 1)
+  objectiveFunction <- matrix(data = 0, nrow = numberOfDMUs, ncol = 1)
   for(Wsp in seq(0, 1, stp)){
     Wt <- 1 - Wsp
     
-    lpmodel <- make.lp((numberOfOutputs + 2), (i + 1))
+    lpmodel <- make.lp((numberOfOutputs + 2), (numberOfDMUs + 1))
     
     # The 1st column, is the column for the phi
-    set.column(lpmodel, 1, c((-Y[i,]), 1, 0))
+    set.column(lpmodel, 1, c((-Y[numberOfDMUs,]), 1, 0))
     
-    for (j in 1:i){
-      objectiveFunction[j] <- (((Wsp / alphaMax[i]) * alphaMatrix[i, j]) - ((Wt / deltaMin[i]) * deltaMatrix[i, j]))
+    for (j in 1:numberOfDMUs){
+      objectiveFunction[j] <- (((Wsp / alphaMax[numberOfDMUs]) * alphaMatrix[numberOfDMUs, j]) - ((Wt / deltaMin[numberOfDMUs]) * deltaMatrix[numberOfDMUs, j]))
       set.column(lpmodel, (j + 1), c((Y[j,]), 0, 1))
     }
     
-    set.objfn(lpmodel, c(0, objectiveFunction[1:i]))
+    set.objfn(lpmodel, c(0, objectiveFunction[1:numberOfDMUs]))
     set.constr.type(lpmodel, c(constraintTypes[1:(numberOfOutputs + 1)], "="))
     set.rhs(lpmodel, c(rightHandSide[1:numberOfOutputs], 1, 1))
     
-    set.type(lpmodel, 2:(i + 1), "binary")
+    set.type(lpmodel, 2:(numberOfDMUs + 1), "binary")
     
     # Set sense for the Linear Problem
     lp.control(lpmodel, sense = "max")
     
     solve(lpmodel)
     
-    st.peer <- c(st.peer, which.max(get.variables(lpmodel)[2:i]))
+    st.peer <- c(st.peer, which.max(get.variables(lpmodel)[2:numberOfDMUs]))
     
     row.Number <- Wsp * 100 + 1
     for(ii in 1:numberOfOutputs){
-      technical.efficiency[row.Number, ii] <- Y[(which.max(get.variables(lpmodel)[2:i])), ii] / Y[i, ii]
+      technical.efficiency[row.Number, ii] <- Y[(which.max(get.variables(lpmodel)[2:numberOfDMUs])), ii] / Y[numberOfDMUs, ii]
     }
     
     eff.stdea <- c(eff.stdea, min(technical.efficiency[row.Number,]))
