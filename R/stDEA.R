@@ -66,6 +66,7 @@ stDEA <- function(X, Y, RTS = "vrs", ORIENTATION = "out", stp = 0.01){
   
   st.peer <- NULL
   #technical.efficiency <- matrix(data = NA, nrow = (1 / 0.01 + 1), ncol = numberOfOutputs)
+  technical.eff.stdea <- NULL
   eff.dea <- eff(e)[numberOfDMUs]
   eff.stdea <- NULL
   technical.eff.dea <- 1 / eff.dea
@@ -101,33 +102,35 @@ stDEA <- function(X, Y, RTS = "vrs", ORIENTATION = "out", stp = 0.01){
     
     st.peer <- c(st.peer, which.max(get.variables(lpmodel)[2:numberOfDMUs]))
     
-    row.Number <- Wsp * 100 + 1
-    for(ii in 1:numberOfOutputs){
-      technical.efficiency[row.Number, ii] <- Y[(which.max(get.variables(lpmodel)[2:numberOfDMUs])), ii] / Y[numberOfDMUs, ii]
+    #     for(ii in 1:numberOfOutputs){
+    #       technical.efficiency[row.Number, ii] <- Y[(which.max(get.variables(lpmodel)[2:numberOfDMUs])), ii] / Y[numberOfDMUs, ii]
+    #     }
+    
+    for (ii in 1 : numberOfOutputs) {
+      technical.eff.stdea <- c(technical.eff.stdea, Y[(which.max(get.variables(lpmodel)[2:numberOfDMUs])), ii] / Y[numberOfDMUs, ii])
+      eff.stdea <- c(eff.stdea, min(technical.eff.stdea[ii]))
     }
     
-    eff.stdea <- c(eff.stdea, min(technical.efficiency[row.Number,]))
+    #technical.eff.stdea <- c(technical.eff.stdea, 1 / eff.stdea[row.Number])
     
-    technical.eff.stdea <- c(technical.eff.stdea, 1 / eff.stdea[row.Number])
-    
-    for(ii in 1:numberOfOutputs){
-      slacks[row.Number, ii] <- Y[(which.max(get.variables(lpmodel)[2:numberOfDMUs])), ii] - eff.stdea[row.Number]  * Y[numberOfDMUs, ii]
-      proj.val[row.Number, ii] <- eff.stdea[numberOfDMUs] * Y[numberOfDMUs, ii]
-    }
+    #     for(ii in 1:numberOfOutputs){
+    #       slacks[row.Number, ii] <- Y[(which.max(get.variables(lpmodel)[2:numberOfDMUs])), ii] - eff.stdea[row.Number]  * Y[numberOfDMUs, ii]
+    #       proj.val[row.Number, ii] <- eff.stdea[numberOfDMUs] * Y[numberOfDMUs, ii]
+    #     }
     
     rm(lpmodel)
   }
-  View(eff.dea)
-  View(eff.stdea)
-  View(technical.eff.dea)
-  View(technical.eff.stdea)
-  View(slacks)
-  View(proj.val)
+  #   View(eff.dea)
+  #   View(eff.stdea)
+  #   View(technical.eff.dea)
+  #   View(technical.eff.stdea)
+  #   View(slacks)
+  #   View(proj.val)
   
   oe <- list(effDEA = eff.dea,
              effstDEA = eff.stdea,
-             lambda = lambda,
-             objval = objval,
+             lambda = lmbd,
+             #              objval = objval,
              RTS = RTS,
              ORIENTATION = ORIENTATION)
   
