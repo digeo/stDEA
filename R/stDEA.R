@@ -66,13 +66,12 @@ stDEA <- function(X, Y, RTS = "vrs", ORIENTATION = "out", stp = 0.01){
   
   st.peer <- NULL
   #technical.efficiency <- matrix(data = NA, nrow = (1 / 0.01 + 1), ncol = numberOfOutputs)
-  technical.eff.stdea <- NULL
-  eff.dea <- eff(e)[numberOfDMUs]
+  eff.dea <- efficiency.dea[numberOfDMUs]
   eff.stdea <- NULL
   technical.eff.dea <- 1 / eff.dea
   technical.eff.stdea <- NULL
-  slacks <- matrix(data = NA, nrow = (1 / 0.01 + 1), ncol = numberOfOutputs)
-  proj.val <- matrix(data = NA, nrow = (1 / 0.01 + 1), ncol = numberOfOutputs)
+  slacks <- matrix(data = NA, nrow = (1 / stp + 1), ncol = numberOfOutputs)
+  proj.val <- matrix(data = NA, nrow = (1 / stp + 1), ncol = numberOfOutputs)
   
   # ST-DEA
   objectiveFunction <- matrix(data = 0, nrow = numberOfDMUs, ncol = 1)
@@ -106,33 +105,43 @@ stDEA <- function(X, Y, RTS = "vrs", ORIENTATION = "out", stp = 0.01){
     #       technical.efficiency[row.Number, ii] <- Y[(which.max(get.variables(lpmodel)[2:numberOfDMUs])), ii] / Y[numberOfDMUs, ii]
     #     }
     
-    for (ii in 1 : numberOfOutputs) {
-      technical.eff.stdea <- c(technical.eff.stdea, Y[(which.max(get.variables(lpmodel)[2:numberOfDMUs])), ii] / Y[numberOfDMUs, ii])
-      eff.stdea <- c(eff.stdea, min(technical.eff.stdea[ii]))
+    technical.efficiency <- NULL
+    for(ii in 1:numberOfOutputs){
+      technical.efficiency <- c(technical.efficiency, Y[(which.max(get.variables(lpmodel)[2:numberOfDMUs])), ii] / Y[numberOfDMUs, ii])
     }
+    
+    eff.stdea <- c(eff.stdea, min(technical.efficiency))
     
     #technical.eff.stdea <- c(technical.eff.stdea, 1 / eff.stdea[row.Number])
     
-    #     for(ii in 1:numberOfOutputs){
-    #       slacks[row.Number, ii] <- Y[(which.max(get.variables(lpmodel)[2:numberOfDMUs])), ii] - eff.stdea[row.Number]  * Y[numberOfDMUs, ii]
-    #       proj.val[row.Number, ii] <- eff.stdea[numberOfDMUs] * Y[numberOfDMUs, ii]
-    #     }
+    row.Number <- (Wsp / stp) + 1
+    
+    for(ii in 1:numberOfOutputs){
+      slacks[row.Number, ii] <- Y[(which.max(get.variables(lpmodel)[2:numberOfDMUs])), ii] - eff.stdea[row.Number]  * Y[numberOfDMUs, ii]
+      #proj.val[row.Number, ii] <- eff.stdea[numberOfDMUs] * Y[numberOfDMUs, ii]
+    }
     
     rm(lpmodel)
   }
-  #   View(eff.dea)
-  #   View(eff.stdea)
-  #   View(technical.eff.dea)
-  #   View(technical.eff.stdea)
+  
+  
   #   View(slacks)
   #   View(proj.val)
   
-  oe <- list(effDEA = eff.dea,
-             effstDEA = eff.stdea,
+  technical.eff.stdea <- 1 / eff.stdea
+  
+  View(technical.eff.dea)
+  View(technical.eff.stdea)
+  View(slacks)
+  
+  oe <- list(eff.DEA = eff.dea,
+             eff.stDEA = eff.stdea,
+             technical.eff.DEA <- technical.eff.dea,
+             technical.eff.stDEA <- technical.eff.stdea,
              lambda = lmbd,
-             #              objval = objval,
              RTS = RTS,
-             ORIENTATION = ORIENTATION)
+             ORIENTATION = ORIENTATION,
+             stp = stp)
   
   return(oe)
   
