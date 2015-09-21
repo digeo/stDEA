@@ -8,3 +8,4 @@ Maintainer: Georgios Digkas <digasgeo@yahoo.gr>
 Description: More about what it does (maybe more than one line)
 License: GPL 2
 LazyLoad: yes
+Depends: Benchmarking
