@@ -130,9 +130,9 @@ stDEA <- function(X, Y, RTS = "vrs", ORIENTATION = "out", stp = 0.01){
   
   technical.eff.stdea <- 1 / eff.stdea
   
-  View(technical.eff.dea)
-  View(technical.eff.stdea)
-  View(slacks)
+  #   View(technical.eff.dea)
+  #   View(technical.eff.stdea)
+  #   View(slacks)
   
   oe <- list(eff.DEA = eff.dea,
              eff.stDEA = eff.stdea,
